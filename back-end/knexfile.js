@@ -1,6 +1,10 @@
 const path = require('path');
 
 module.exports = (environment) => {
+  if (!environment) {
+    throw new Error('Environment not properly set.');
+  }
+
   const config = {
     client: 'postgresql',
     migrations: {
