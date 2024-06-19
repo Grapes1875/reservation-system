@@ -7,6 +7,8 @@ knex.migrate
   .latest()
   .then((migrations) => {
     console.log("Database migrations applied:", migrations);
+
+    // Start the server only after migrations are applied
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
     });
@@ -17,9 +19,9 @@ knex.migrate
     process.exit(1); // Exit the process with error status
   });
 
-// Configure SSL mode for PostgreSQL connection
-knex.client.pool.defaults.ssl = {
-  rejectUnauthorized: false, // Adjust as per your PostgreSQL setup
-};
+// Ensure knex.client.pool.defaults.ssl is initialized properly
+if (DATABASE_URL && DATABASE_URL.includes("https://")) {
+  knex.client.pool.defaults.ssl = { rejectUnauthorized: false };
+}
 
 module.exports = app;
