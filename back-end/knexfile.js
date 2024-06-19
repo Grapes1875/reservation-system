@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   development: {
     client: 'postgresql',
-    connection: process.env.POSTGRES_URL_DEVELOPMENT || process.env.DATABASE_URL_DEVELOPMENT,
+    connection: process.env.DATABASE_URL_DEVELOPMENT || process.env.POSTGRES_URL_DEVELOPMENT,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
@@ -14,7 +14,7 @@ module.exports = {
   },
   test: {
     client: 'postgresql',
-    connection: process.env.POSTGRES_URL_TEST || process.env.DATABASE_URL_TEST,
+    connection: process.env.DATABASE_URL_TEST || process.env.POSTGRES_URL_TEST,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
@@ -25,7 +25,7 @@ module.exports = {
   },
   production: {
     client: 'postgresql',
-    connection: process.env.POSTGRES_URL || process.env.DATABASE_URL,
+    connection: process.env.DATABASE_URL || process.env.POSTGRES_URL,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
