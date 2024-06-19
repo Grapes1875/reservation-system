@@ -1,56 +1,48 @@
 const path = require('path');
 
-const {
-  DATABASE_URL,
-  DATABASE_URL_DEVELOPMENT,
-  DATABASE_URL_TEST,
-  DATABASE_URL_PREVIEW,
-  DEBUG,
-} = process.env;
-
 module.exports = {
   development: {
     client: 'postgresql',
-    connection: DATABASE_URL_DEVELOPMENT,
+    connection: process.env.POSTGRES_URL_NON_POOLING || process.env.DATABASE_URL_DEVELOPMENT,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
     seeds: {
       directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
-    debug: !!DEBUG,
+    debug: process.env.DEBUG === 'true',
   },
   test: {
     client: 'postgresql',
-    connection: DATABASE_URL_TEST,
+    connection: process.env.POSTGRES_URL_NO_SSL || process.env.DATABASE_URL_TEST,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
     seeds: {
       directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
-    debug: !!DEBUG,
+    debug: process.env.DEBUG === 'true',
   },
   preview: {
     client: 'postgresql',
-    connection: DATABASE_URL_PREVIEW,
+    connection: process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL_PREVIEW,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
     seeds: {
       directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
-    debug: !!DEBUG,
+    debug: process.env.DEBUG === 'true',
   },
   production: {
     client: 'postgresql',
-    connection: DATABASE_URL,
+    connection: process.env.POSTGRES_URL || process.env.DATABASE_URL,
     migrations: {
       directory: path.join(__dirname, 'src', 'db', 'migrations'),
     },
     seeds: {
       directory: path.join(__dirname, 'src', 'db', 'seeds'),
     },
-    debug: !!DEBUG,
+    debug: process.env.DEBUG === 'true',
   },
 };
