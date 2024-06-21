@@ -24,13 +24,6 @@ export const ReservationForm = ({
     submitHandler(reservation);
   }
 
-  const handleChange = (event) => {
-    const { name , value } = event.target;
-    setReservation({
-      ...reservation,
-      [name]: value,
-    });
-  };
 
   return (
     <div>
@@ -54,7 +47,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.first_name}
               maxLength="100"
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div>
@@ -66,7 +59,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.last_name}
               maxLength="100"
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div>
@@ -78,7 +71,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.mobile_number}
               maxLength="100"
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div>
@@ -92,7 +85,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.reservation_date}
               maxLength="100"
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div>
@@ -106,7 +99,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.reservation_time}
               maxLength="100"
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div>
@@ -118,7 +111,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.people}
               min={1}
-              onChange={handleChange}
+              onChange={changeHandler}
             />
           </div>
           <div className="group-row">
