@@ -1,42 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { hasValidDateAndTime } from "./ReservationValidate";
+
 
 export const ReservationForm = ({
-  initialReservation,
+  reservation,
   changeHandler,
   submitHandler,
 }) => {
-  const history = useHistory();
-  const [reservation, setReservation] = useState(initialReservation);
-  const [errors, setErrors] = useState([]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const validationErrors = hasValidDateAndTime(reservation);
-
-    if (validationErrors.length > 0){
-      setErrors(validationErrors);
-      return;
-    }
-
-    submitHandler(reservation);
-  }
-
+    const history = useHistory();
 
   return (
-    <div>
-      {errors.length > 0 &&(
-        <div className="alert alert-danger">
-          <ul>
-            {errors.map((error, index) => (
-              <li key={index}>{error.message}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submitHandler}>
         <fieldset>
           <div>
             <label htmlFor="first_name">First Name:</label>
@@ -128,7 +102,6 @@ export const ReservationForm = ({
           </div>
         </fieldset>
       </form>
-    </div>
   );
 };
 
