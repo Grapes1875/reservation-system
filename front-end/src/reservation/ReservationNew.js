@@ -13,6 +13,7 @@ export const ReservationNew = () => {
     reservation_date: "",
     reservation_time: "",
     people: 0,
+    status: "",
   };
 
   const [reservation, setReservation] = useState({

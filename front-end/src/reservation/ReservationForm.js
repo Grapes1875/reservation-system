@@ -1,16 +1,49 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { hasValidDateAndTime } from "./ReservationValidate";
 
 export const ReservationForm = ({
-  reservation,
+  initialReservation,
   changeHandler,
   submitHandler,
 }) => {
   const history = useHistory();
+  const [reservation, setReservation] = useState(initialReservation);
+  const [errors, setErrors] = useState([]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const validationErrors = hasValidDateAndTime(reservation);
+
+    if (validationErrors.length > 0){
+      setErrors(validationErrors);
+      return;
+    }
+
+    submitHandler(reservation);
+  }
+
+  const handleChange = (event) => {
+    const { name , value } = event.target;
+    setReservation({
+      ...reservation,
+      [name]: value,
+    });
+  };
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      {errors.length > 0 &&(
+        <div className="alert alert-danger">
+          <ul>
+            {errors.map((error, index) => (
+              <li key={index}>{error.message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <form onSubmit={handleSubmit}>
         <fieldset>
           <div>
             <label htmlFor="first_name">First Name:</label>
@@ -21,7 +54,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.first_name}
               maxLength="100"
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -33,7 +66,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.last_name}
               maxLength="100"
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -45,7 +78,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.mobile_number}
               maxLength="100"
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -59,7 +92,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.reservation_date}
               maxLength="100"
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -73,7 +106,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.reservation_time}
               maxLength="100"
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -85,7 +118,7 @@ export const ReservationForm = ({
               required={true}
               value={reservation.people}
               min={1}
-              onChange={changeHandler}
+              onChange={handleChange}
             />
           </div>
           <div className="group-row">
