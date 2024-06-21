@@ -15,9 +15,7 @@ export const ReservationNew = () => {
     people: 0,
   };
 
-  const [reservation, setReservation] = useState({
-    ...initialReservationState,
-  });
+  const [reservation, setReservation] = useState({ ...initialReservationState });
   const [reservationErrors, setReservationErrors] = useState(null);
   const history = useHistory();
 
