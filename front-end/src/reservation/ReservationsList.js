@@ -6,7 +6,7 @@ export const ReservationsList = ({
   cancelHandler,
   filterResults,
 }) => {
-  // Filters out reservations that are finished or cancelled
+  // Function to filter out reservations with unwanted statuses
   function checkStatus(reservation) {
     return (
       reservation.status === "finished" || reservation.status === "cancelled"
@@ -25,13 +25,17 @@ export const ReservationsList = ({
     return formattedTime;
   }
 
+  // Function to render reservations based on filterResults flag
   function renderReservations(reservations) {
     if (reservations.length) {
       return reservations.map((reservation) => {
-        // Dashboard shows only booked and seated results, whereas Search shows all results
-        return filterResults && checkStatus(reservation) ? (
-          ""
-        ) : (
+        // Apply the filter condition
+        if (filterResults && checkStatus(reservation)) {
+          return null; // Skip rendering if the status is unwanted
+        }
+
+        // Render reservation details
+        return (
           <div className="reservation" key={reservation.reservation_id}>
             <div className="group">
               <div className="item-quad">
@@ -59,7 +63,7 @@ export const ReservationsList = ({
                 </div>
               </div>
               <div className="item">
-                {reservation.status === "booked" ? (
+                {reservation.status === "booked" && ( // Ensure status is "booked"
                   <div className="group-reverse">
                     <Link
                       className="item button-link"
@@ -83,8 +87,6 @@ export const ReservationsList = ({
                       Cancel
                     </button>
                   </div>
-                ) : (
-                  ""
                 )}
               </div>
             </div>
