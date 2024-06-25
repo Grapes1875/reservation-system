@@ -108,7 +108,7 @@ function hasValidNumber(req, res, next) {
   next();
 }
 
-function hasValidStatus(req, res, next) {
+function hasValidStatus(_, res, next) {
   const { status } = req.body.data;
   const currentStatus = res.locals.reservation.status;
 
@@ -160,9 +160,7 @@ async function reservationExists(req, res, next) {
   });
 }
 
-/**
- * List handler for reservation resources
- */
+
 async function list(req, res) {
   const date = req.query.date;
   const mobile_number = req.query.mobile_number;
@@ -194,6 +192,14 @@ async function update(req, res) {
 async function updateStatus(req, res) {
   const { status } = res.locals;
   const { reservation_id } = res.locals.reservation;
+
+  if (status !== 'booked' && status !== 'seated'){
+    return next({
+      status: 400,
+      message: `Invalid status: ${status}. Status must be 'booked' or 'seated'.`,
+    })
+  }
+
   const data = await reservationsService.updateStatus(reservation_id, status);
   res.status(200).json({ data });
 }
